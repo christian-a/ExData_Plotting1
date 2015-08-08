@@ -1,3 +1,19 @@
+# check if file exists otherwise download and/or extract file
+if (!file.exists("./data/household_power_consumption.txt")) {
+    if (!file.exists("./data")) {
+        dir.create("data")
+    }
+    
+    # check if zip exists otherwise download
+    if (!file.exists("./data/household_power_consumption.zip")) {
+        url <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
+        download.file(url, "./data/household_power_consumption.zip", method = "curl")
+    }
+    
+    # unzip the file
+    unzip("./data/household_power_consumption.zip", exdir = "data")
+}
+
 # read in the data and subset only the 1st and 2nd February 2007
 epc.data.set <- read.csv("./data/household_power_consumption.txt", header = T, 
                          sep=";", na.strings = "?")
